@@ -57,9 +57,8 @@ router.put('/customers/:id', (req, res, next) => {
           message: `Customer does not exist`
         })
       }
-      return customer.update(req.body)
+      return customer.update(req.body).then(customer => res.send(customer))
     })
-    .then(customer => res.send(customer))
     .catch(error => next(error))
 })
 
@@ -73,10 +72,10 @@ router.delete('/customers/:id', (req, res, next) => {
         })
       }
       return customer.destroy()
+        .then(() => res.send({
+          message: `Customer was deleted`
+        }))
     })
-    .then(() => res.send({
-      message: `Customer was deleted`
-    }))
     .catch(error => next(error))
 })
 
